@@ -1,0 +1,72 @@
+:root {
+  --bg: #0f1319;
+  --surface: #161c25;
+  --surface-raised: #1e2631;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --text-primary: #e9edf3;
+  --text-muted: #8a93a6;
+  --text-faint: #5b6579;
+
+  --accent-safe: #45c7b6;
+  --accent-safe-dim: rgba(69, 199, 182, 0.14);
+  --accent-watch: #e8b84b;
+  --accent-risk: #f2734b;
+  --accent-risk-dim: rgba(242, 115, 75, 0.14);
+  --accent-risk-strong: #e14f32;
+
+  --font-display: "Space Grotesk", "IBM Plex Sans", sans-serif;
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: radial-gradient(circle at 12% -10%, #1b2635 0%, var(--bg) 45%) fixed;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-safe);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
