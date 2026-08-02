@@ -1,202 +1,149 @@
-## Overview
-
-**Churn Radar** predicts whether a telecom customer is likely to cancel their service, using a Decision Tree classifier trained on the [IBM Telco Customer Churn dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn). The project takes that model out of a notebook and wraps it in a real application: a validated REST API and a polished React interface, ready to demo or deploy.
-
+# Churn Radar
+**Telco Customer Churn Prediction — from notebook to production-ready application**
+> Telco Customer Churn Prediction — from notebook to production-ready application
+[![Live Demo](https://img.shields.io/badge/demo-live-0ea5e9?style=flat-square)](https://telco-customer-churn-analysis-beta.vercel.app/)
+[![Python](https://img.shields.io/badge/python-3.11+-3776ab?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![React](https://img.shields.io/badge/react-18-61dafb?style=flat-square&logo=react&logoColor=white)](https://react.dev/)
+[![FastAPI](https://img.shields.io/badge/fastapi-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Live Demo](https://img.shields.io/badge/demo-live-0ea5e9?style=for-the-badge)](https://telco-customer-churn-analysis-beta.vercel.app/)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+**Churn Radar** predicts whether a telecom customer is likely to cancel their service, using a Decision Tree classifier trained on the [IBM Telco Customer Churn dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn). The project takes that model out of a notebook and wraps it in a validated REST API and a polished React interface — ready to demo, deploy, or extend.
+**Live demo:** [telco-customer-churn-analysis-beta.vercel.app](https://telco-customer-churn-analysis-beta.vercel.app/)
+**Live application:** [https://telco-customer-churn-analysis-beta.vercel.app/](https://telco-customer-churn-analysis-beta.vercel.app/)
+**Churn Radar** predicts whether a telecom customer is likely to cancel their service. It uses a Decision Tree classifier trained on the [IBM Telco Customer Churn dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) and wraps that model in a validated REST API plus a React interface — ready to demo, deploy, or extend.
 ---
-
-## Why this project stands out
-
-| | |
-|---|---|
-| 🔁 **Two interchangeable backends** | The same prediction logic is implemented in both **Flask** and **FastAPI**, sharing a single `model_utils.py` module — demonstrating framework versatility and clean separation of concerns. |
-| ✅ **Verified correctness** | The feature-encoding pipeline was validated row-for-row against the original training data (`tel_churn.csv`) to guarantee the API's predictions exactly match the trained model — not an approximation. |
-| 🎯 **Real input validation** | Every request is checked against the model's expected categories and types before it ever reaches the model, returning clear `422` errors instead of silent failures or crashes. |
-| 🎨 **Thoughtful frontend design** | A custom animated signal-gauge visualizes churn probability, built from scratch in SVG — not just numbers in a table. |
-| 📦 **Batch predictions** | Supports scoring a single customer or a full list in one request, closer to how this would be used in a real retention workflow. |
-| 📖 **Self-documenting API** | FastAPI's interactive Swagger docs (`/docs`) let anyone explore and test the API with zero setup. |
-
+## Table of Contents
+- [Highlights](#highlights)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Project Structure](#project-structure)
+- [API Reference](#api-reference)
+- [Getting Started](#getting-started)
+- [Deployment](#deployment)
+- [Engineering Notes](#engineering-notes)
 ---
-
+## Highlights
+| Feature | Description |
+|---------|-------------|
+| **Dual backend architecture** | The same prediction logic runs in both **Flask** and **FastAPI**, sharing a single `model_utils.py` module — demonstrating framework versatility and clean separation of concerns. |
+| **Verified correctness** | The feature-encoding pipeline was validated row-for-row against the original training data (`tel_churn.csv`) so API predictions match the trained model exactly. |
+| **Strict input validation** | Every request is validated against expected categories and types before inference, returning clear `422` errors instead of silent failures. |
+| **Interactive UI** | A custom animated signal gauge visualizes churn probability, built from scratch in SVG — not just numbers in a table. |
+| **Batch predictions** | Score a single customer or a full list in one request, aligned with real retention workflows. |
+| **Self-documenting API** | FastAPI's interactive Swagger docs at `/docs` let anyone explore and test the API with zero setup. |
+| :------ | :---------- |
+| Dual backend architecture | Same prediction logic in **Flask** and **FastAPI**, sharing one `model_utils.py` module |
+| Verified correctness | Feature encoding validated row-for-row against `tel_churn.csv` |
+| Strict input validation | Invalid requests return clear `422` errors before inference |
+| Interactive UI | Custom SVG signal gauge for churn probability |
+| Batch predictions | Score one customer or a full list in a single request |
+| Self-documenting API | FastAPI Swagger docs at `/docs` for zero-setup exploration |
+---
 ## Tech Stack
-
 **Frontend**
+### Frontend
 - React 18 + Vite
-- Custom CSS design system (no UI framework — every component hand-built)
+- Custom CSS design system (no UI framework)
 - Hand-rolled SVG data visualization (signal gauge)
-
+- Hand-rolled SVG signal gauge
 **Backend**
-- FastAPI (Pydantic-validated schemas, async-ready, auto-generated OpenAPI docs)
-- Flask (lightweight alternative implementation, same contract)
+- FastAPI — Pydantic-validated schemas, async-ready, auto-generated OpenAPI docs
+- Flask — lightweight alternative with an identical API contract
 - Shared preprocessing module across both backends
-
+### Backend
 **Machine Learning**
+- **FastAPI** — Pydantic schemas, auto-generated OpenAPI docs
+- **Flask** — lightweight alternative with the same API contract
+- Shared `model_utils.py` preprocessing across both backends
+### Machine Learning
 - scikit-learn `DecisionTreeClassifier`
 - Class imbalance handled with `imblearn.SMOTEENN`
-- Feature engineering: one-hot encoding + tenure bucketing, reconstructed at inference time to exactly match training
-
+- Feature engineering: one-hot encoding + tenure bucketing, reconstructed at inference time to match training
+- One-hot encoding + tenure bucketing at inference time
+**Deployment**
+- Frontend hosted on [Vercel](https://vercel.com)
+- Backend API hosted on [Render](https://render.com)
+### Deployment
+- Frontend — [Vercel](https://vercel.com)
+- Backend — [Render](https://render.com)
 ---
-
 ## Architecture
-
+```mermaid
+flowchart LR
+    A["React + Vite SPA<br/>(Churn Radar UI)"]
+    B["FastAPI or Flask API<br/>/api/predict · /api/health"]
+    C["model_utils.py<br/>validation · encoding · inference"]
+    D["model.sav"]
+    A <-->|HTTP / JSON| B
+    B --> C
+    C --> D
 ```
 ┌─────────────────────┐        HTTP / JSON        ┌──────────────────────────┐
 │   React + Vite SPA   │ ─────────────────────────▶│  FastAPI  or  Flask API   │
-│  (Churn Radar UI)     │◀───────────────────────── │  /api/predict             │
+│   (Churn Radar UI)   │◀───────────────────────── │  /api/predict             │
 └─────────────────────┘                            │  /api/predict/batch       │
-                                                     │  /api/health, /api/schema │
-                                                     └────────────┬─────────────┘
-                                                                  │
-                                                     ┌────────────▼─────────────┐
-                                                     │   model_utils.py          │
-                                                     │   • input validation      │
-                                                     │   • feature encoding      │
-                                                     │   • model.sav inference   │
-                                                     └────────────────────────────┘
+                                                   │  /api/health, /api/schema │
+                                                   └────────────┬─────────────┘
+                                                                │
+                                                   ┌────────────▼─────────────┐
+                                                   │   model_utils.py          │
+                                                   │   • input validation      │
+                                                   │   • feature encoding      │
+                                                   │   • model.sav inference   │
+                                                   └───────────────────────────┘
 ```
-
 ---
-
 ## Project Structure
-
 ```
+```text
 churn-app/
 ├── backend-flask/
 │   ├── app.py                 # Flask routes
 │   ├── model_utils.py         # Shared preprocessing + prediction logic
-│   ├── model.sav               # Trained Decision Tree model
+│   ├── model.sav              # Trained Decision Tree model
+│   ├── app.py
+│   ├── model_utils.py
+│   ├── model.sav
 │   └── requirements.txt
 │
 ├── backend-fastapi/
-│   ├── main.py                 # FastAPI routes + Pydantic schemas
+│   ├── main.py                # FastAPI routes + Pydantic schemas
 │   ├── model_utils.py         # Shared preprocessing + prediction logic
-│   ├── model.sav               # Trained Decision Tree model
+│   ├── model.sav              # Trained Decision Tree model
+│   ├── runtime.txt            # Python version for Render
+│   ├── main.py
+│   ├── model_utils.py
+│   ├── model.sav
+│   ├── runtime.txt
 │   └── requirements.txt
 │
-└── frontend/
-    ├── package.json
-    └── src/
-        ├── App.jsx             # Root component
-        ├── api.js              # API client for backend calls
-        ├── fieldConfig.js      # Form field definitions
-        └── components/
-            ├── CustomerForm.jsx    # Customer input form
-            ├── ResultPanel.jsx     # Prediction result display
-            └── SignalGauge.jsx     # Churn probability gauge visualization
+├── frontend/
+│   ├── vercel.json            # Vercel deployment config
+│   ├── vercel.json
+│   ├── package.json
+│   └── src/
+│       ├── App.jsx            # Root component
+│       ├── api.js             # API client
+│       ├── fieldConfig.js     # Form field definitions
+│       ├── App.jsx
+│       ├── api.js
+│       ├── fieldConfig.js
+│       └── components/
+│           ├── CustomerForm.jsx
+│           ├── ResultPanel.jsx
+│           └── SignalGauge.jsx
+│
+└── render.yaml                # Render deployment blueprint
+└── render.yaml
 ```
-
 ---
+
+[1 line collapsed]
 
 ## API Reference
-
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET`  | `/api/health` | Service and model status |
-| `GET`  | `/api/schema` | Field names and allowed categorical values |
-| `POST` | `/api/predict` | Predict churn for a single customer |
-| `POST` | `/api/predict/batch` | Predict churn for a list of customers |
-
-**Example request** — `POST /api/predict`
-
-```json
-{
-  "gender": "Female",
-  "SeniorCitizen": 0,
-  "Partner": "Yes",
-  "Dependents": "No",
-  "tenure": 1,
-  "PhoneService": "No",
-  "MultipleLines": "No phone service",
-  "InternetService": "DSL",
-  "OnlineSecurity": "No",
-  "OnlineBackup": "Yes",
-  "DeviceProtection": "No",
-  "TechSupport": "No",
-  "StreamingTV": "No",
-  "StreamingMovies": "No",
-  "Contract": "Month-to-month",
-  "PaperlessBilling": "Yes",
-  "PaymentMethod": "Electronic check",
-  "MonthlyCharges": 29.85,
-  "TotalCharges": 29.85
-}
-```
-
-**Example response**
-
-```json
-{
-  "churn": true,
-  "churn_label": "Yes",
-  "probability_no_churn": 0.0316,
-  "probability_churn": 0.9684
-}
-```
-
----
-
-## Getting Started
-
-### Prerequisites
-- Python 3.11 or 3.12
-- Node.js 18+
-
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/yourusername/churn-app.git
-cd churn-app
-```
-
-### 2. Run a backend
-
-**FastAPI** (recommended — includes interactive docs at `/docs`)
-
-```bash
-cd backend-fastapi
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
-```
-
-**or Flask**
-
-```bash
-cd backend-flask
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python app.py
-```
-
-### 3. Run the frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Open **http://localhost:5173**. By default it talks to FastAPI on port 8000 — update `vite.config.js` or `.env` to point at Flask (`:5000`) instead.
-
-### 4. Build for production
-
-```bash
-cd frontend
-npm run build
-npm run preview
-```
-
----
-
-## Engineering Notes
-
-- **Exact feature parity with training data.** The model was trained with `feature_names_in_` stored on it, so `model_utils.py` reconstructs a DataFrame with those precise 50 columns, in the exact order the model expects — eliminating a common source of silent prediction bugs.
-- **Faithful tenure bucketing.** Reproduces the original notebook's binning: `pd.cut(tenure, range(1, 80, 12), right=False, labels=[...])`.
-- **Fail-fast validation.** Unknown categorical values or missing/non-numeric fields are rejected with a `422` before ever reaching the model.
-
- 
-
----
-
-<div align="center">
-<sub>Built as a hands-on demonstration of shipping a machine learning model as a real, usable product — from notebook to API to interface.</sub>
-</div>
+| `GET` | `/api/health` | Service and model status |
+| `GET` | `/api/schema` | Field names and allowed categorical values |
